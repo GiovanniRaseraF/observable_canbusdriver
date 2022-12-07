@@ -2,8 +2,7 @@
 - This is a linux "driver" that can be used to listen to can bus events
 - The notification follows the Observer design pattern
 - The canlistener runs in a separate thread
-
-- Connection to the can interface is done automatically
+- Connection to the can is done following RAII
 
 # usage
 ```python
