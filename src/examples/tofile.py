@@ -24,18 +24,19 @@ def hpbattery():
     
     def update(self, data: bytes, channel: int) -> None:
         if channel == 0x505:
-            self.bat_TotalVoltage = (float(int.from_bytes(data[0 : 2], byteorder="big", signed=True)) / 10.0)
-            self.bat_TotalCurrent = (float(int.from_bytes(data[2 : 4], byteorder="big", signed=True)) / 10.0)
+            self.bat_TotalVoltage       = (float(int.from_bytes(data[0 : 2], byteorder="big", signed=True)) / 10.0)
+            self.bat_TotalCurrent       = (float(int.from_bytes(data[2 : 4], byteorder="big", signed=True)) / 10.0)
             self.bat_BatteryTemperature = int.from_bytes(data[4 : 5], byteorder="big", signed=False)
-            self.bat_BMSTemperature = int.from_bytes(data[5 : 6], byteorder="big", signed=False)
-            self.bat_SOC = int.from_bytes(data[6 : 7], byteorder="big", signed=False)
+            self.bat_BMSTemperature     = int.from_bytes(data[5 : 6], byteorder="big", signed=False)
+            self.bat_SOC                = int.from_bytes(data[6 : 7], byteorder="big", signed=False)
+
         if channel == 0x506:
-            self.bat_faults = '{0:X}'.format(int.from_bytes(data[0 : 1], byteorder="little", signed=False))
-            self.bat_warnings = '{0:X}'.format(int.from_bytes(data[1 : 2], byteorder="little", signed=False))
-            self.bat_status = '{0:X}'.format(int.from_bytes(data[2 : 3], byteorder="little", signed=False))
-            self.bat_Power = (float(int.from_bytes(data[3 : 5], byteorder="big", signed=True)) / 10.0)
-            self.bat_TimeToEmpty = int.from_bytes(data[5 : 7], byteorder="big", signed=False)
-            self.bat_auxBatteryVoltage = (float(int.from_bytes(data[7 : 8], byteorder="big", signed=False)) / 10.0)
+            self.bat_faults             = '{0:X}'.format(int.from_bytes(data[0 : 1], byteorder="little", signed=False))
+            self.bat_warnings           = '{0:X}'.format(int.from_bytes(data[1 : 2], byteorder="little", signed=False))
+            self.bat_status             = '{0:X}'.format(int.from_bytes(data[2 : 3], byteorder="little", signed=False))
+            self.bat_Power              = (float(int.from_bytes(data[3 : 5], byteorder="big", signed=True)) / 10.0)
+            self.bat_TimeToEmpty        = int.from_bytes(data[5 : 7], byteorder="big", signed=False)
+            self.bat_auxBatteryVoltage  = (float(int.from_bytes(data[7 : 8], byteorder="big", signed=False)) / 10.0)
     
     def start(self):
         while(True):
@@ -43,9 +44,10 @@ def hpbattery():
 
             print(f"{self.bat_totalVoltage}")
 
-
 if __name__ == "__main__":
     hpbatt = hpbattery()
-    batteryThread = threading.Thread(target = hpbatt)
+    run = lambda: hpbatt.start()
+
+    batteryThread = threading.Thread(target = run)
 
     batteryThread.start()
