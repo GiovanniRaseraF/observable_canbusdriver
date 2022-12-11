@@ -12,13 +12,17 @@ Description: GPIO comunication for BananaPi M2 Zero
 
 using namespace std::chrono_literals;
 
+
 class gpio{
-    const std::string export_path = "/sys/class/gpio/export";
-    const std::string unexport_path = "/sys/class/gpio/unexport";
+    static std::string export_path; 
+    static std::string unexport_path;
+    static std::string basefolder;
+
+    // gpio port number
     unsigned int port;
     
     public:
-    // RAII
+    // RAII connect
     gpio(unsigned int p) : port{p}{  
         std::ofstream exportfile{export_path};
 
@@ -33,6 +37,31 @@ class gpio{
         std::cout << "opening port: " << port << std::endl;
     }
 
+    gpio(const gpio &) = delete;
+    gpio(gpio &&) = default;
+    gpio &operator=(const gpio &) = delete;
+    gpio &operator=(gpio &) = default;
+
+    // check open
+    std::fstream tryopenfile(const std::string &path){
+
+    }
+
+    // direction and edge
+    int set_direction(const gpio::direction d){
+
+    }
+
+    // writing and reading
+    bool write(bool val){
+        return val;   
+    } 
+
+    bool read(){
+        return false;
+    }
+
+    // disconnect
     ~gpio(){
         std::ofstream unexportfile{unexport_path};
 
@@ -46,6 +75,10 @@ class gpio{
         std::cout << "closing port: " << port << std::endl;
     }
 };
+
+std::string gpio::export_path{"/sys/class/gpio/export"};
+std::string gpio::unexport_path{"/sys/class/gpio/unexport"};
+std::string gpio::basefolder{"/sys/class/gpio"};
 
 #define GPIO_DEBUG
 #ifdef GPIO_DEBUG
