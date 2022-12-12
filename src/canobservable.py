@@ -5,6 +5,9 @@
 # Description:
 #   Module to provide ad observable can bus interface with automatic detection
 #   and connection to the canbus socket in linux
+#   
+#   Replay feature form csv file
+#   TODO: replay with timings
 #
 
 import can
@@ -16,6 +19,7 @@ import struct
 import binascii
 from listener import listener, motor
 import logging as log
+import pathlib
 
 def trytoload():
     for i in range(0, 4):
@@ -23,12 +27,17 @@ def trytoload():
         os.system(f"sudo /sbin/ip link set can{i} up type can bitrate 250000 2> /dev/null") 
         os.system(f"sudo /sbin/ifconfig can{i} up 2> /dev/null")
 
+# Read canbus from linux socket
 class canlisten(threading.Thread):
     __listenersdict = {} 
     canbus = None
-
+    
     # constructor RAII
-    def __init__(self, interface = "can", baudrate = 250000):
+    def __init__(self, interface = "can", baudrate = 25000):
+        if interface == "replay":
+            threading.Thread.__init__(self)
+            return
+
         # try load
         if interface == "can": trytoload()
 

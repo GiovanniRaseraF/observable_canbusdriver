@@ -22,8 +22,8 @@ class listener():
 # motor example
 class motor(listener):
     def __init__(self, desc: str, on: list):
-        listener.on = on
-        listener.desctiption = desc 
+        self.on = on
+        self.description = desc 
 
     def update(self, data: bytes, channel: int) -> None:
         print(f"{channel} : {data}")   
