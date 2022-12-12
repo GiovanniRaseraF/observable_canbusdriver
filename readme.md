@@ -3,9 +3,6 @@
 - The notification follows the Observer design pattern
 - The canlistener runs in a separate thread
 
-# Replay
-- You can replay canbus logs using canfilereplay
-
 # usage
 ```python
 # motor example
@@ -33,7 +30,26 @@ input("PRESS RETURN to continue :>")
 # create can thread
 canbus.start()
 ```
+# Replay
+- You can replay canbus logs using canfilereplay
+```python
+from canfilereplay import *
 
+canreplay = canlistenfromfile(
+	pathtofile = "{___PATH_TO_FILE__}",
+    replayfrequency = 0.1
+)
+
+canreplay.add_listener(
+    motor(
+        desc = "motor", 
+        on = [0x500, 0x460]
+    )
+)
+
+print(canreplay)
+canreplay.start()
+```
 # run
 ```sh
 sudo pip install python-can
