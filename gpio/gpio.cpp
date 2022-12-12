@@ -12,6 +12,7 @@ Description: GPIO comunication for BananaPi M2 Zero
 
 using namespace std::chrono_literals;
 
+enum direction{IN, OUT};
 
 class gpio{
     static std::string export_path; 
@@ -22,6 +23,8 @@ class gpio{
     unsigned int port;
     
     public:
+    // Direction
+
     // RAII connect
     gpio(unsigned int p) : port{p}{  
         std::ofstream exportfile{export_path};
@@ -48,12 +51,13 @@ class gpio{
     }
 
     // direction and edge
-    int set_direction(const gpio::direction d){
+    int set_direction(const direction d){
 
     }
 
     // writing and reading
     bool write(bool val){
+        set_direction(IN);
         return val;   
     } 
 
