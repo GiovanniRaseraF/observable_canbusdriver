@@ -123,7 +123,7 @@ if __name__ == "__main__":
     )
 
     # listening the motor at this channels
-    m = motor("motor", [0x00, 0x11, 0x55, 0x88])
+    m = motor("motor", [0x500, 0x501, 0x502, 0x503, 0x504, 0x505, 0x506, 0x700, 0x701, 0x702])
     canbus.add_listener(m)
 
     # log
@@ -132,7 +132,7 @@ if __name__ == "__main__":
 
     # create can thread
     canbus.start()
-
+    canbus.join()
     # close
     # Auto disconnection
     
