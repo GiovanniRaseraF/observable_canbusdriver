@@ -47,11 +47,20 @@ class gpio{
 
     // check open
     std::fstream tryopenfile(const std::string &path){
+        std::fstream ret{path};
+        
+        if(!ret){
+            std::cerr << "cannot open file: " << path << std::endl;
+            exit(1);
+        }
 
+        return ret;
     }
 
     // direction and edge
     int set_direction(const direction d){
+        // export file in */gpioPORT/direction
+        std::fstream directionfile = tryopenfile(basefolder + "/gpio" + std::to_string(port) + "/direction"); 
 
     }
 
