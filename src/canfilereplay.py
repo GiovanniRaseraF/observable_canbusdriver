@@ -1,5 +1,9 @@
-# 
+#
 # Author: Giovanni Rasera
+# Link: https://www.github.com/GiovanniRaseraF
+#
+# Desciption:
+#   file replayer 
 #
 
 import can
