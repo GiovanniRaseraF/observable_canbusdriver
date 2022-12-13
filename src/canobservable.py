@@ -133,7 +133,9 @@ if __name__ == "__main__":
 
     # listening the motor at this channels
     m = motor("motor", [0x500, 0x501, 0x502, 0x503, 0x504, 0x505, 0x506, 0x700, 0x701, 0x702])
+    s = motor("elemento", [0x500, 0x11])
     canbus.add_listener(m)
+    canbus.add_listener(s)
 
     # log
     print(canbus)

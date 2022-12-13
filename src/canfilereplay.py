@@ -23,9 +23,11 @@ class canlistenfromfile(threading.Thread):
     pathtofile = ""
     __listenersdict = {}
     freq = 1.0
+    loopfile = True
 
     # @param replayfrequency: seconds
-    def __init__(self, pathtofile: str, replayfrequency = 1.0):
+    # @param loopfile: restart file when ended
+    def __init__(self, pathtofile: str, replayfrequency = 1.0, loopfile = True):
         try:
             self.file = open(file=pathtofile)        
         except:
@@ -33,14 +35,34 @@ class canlistenfromfile(threading.Thread):
             exit(1)
         self.pathtofile = pathtofile
         self.freq = replayfrequency
+        self.loopfile = loopfile
 
         threading.Thread.__init__(self)
+
+    # Looping feature
+    def __checkloop(self) -> str | None:
+        line = self.file.readline()
+        
+        # Loop file feature
+        if line == '':
+            log.info("file ended")
+            if self.loopfile:
+                self.file.close()
+                self.file = open(self.pathtofile, "r")
+                line = self.file.readline()
+            else:
+                log.info("no loop file closing application")
+                exit(0)
+        else:
+            return line
+        
+        return line
 
     # TODO: implement timings
     def read(self) -> None:
         if self.file == None: return
-
-        line = self.file.readline()
+        
+        line = self.__checkloop() 
         vals = line.split(" ")
 
         id = int(vals[0], 16)
