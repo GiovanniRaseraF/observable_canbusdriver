@@ -40,7 +40,7 @@ class canlistenfromfile(threading.Thread):
         threading.Thread.__init__(self)
 
     # Looping feature
-    def __checkloop(self) -> str | None:
+    def __checkloop(self):
         line = self.file.readline()
         
         # Loop file feature
