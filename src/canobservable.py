@@ -84,7 +84,7 @@ class canlisten(threading.Thread):
             else:
                 self.__listenersdict[on].append(new_listener)
 
-        log.info("added new listener to notification list")
+        log.info("added new listener: " + new_listener.description)
 
         return True
 
