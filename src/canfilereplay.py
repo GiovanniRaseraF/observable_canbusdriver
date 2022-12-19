@@ -82,7 +82,7 @@ class canlistenfromfile(threading.Thread):
             else:
                 self.__listenersdict[on].append(new_listener)
 
-        log.info("added new listener to notification list")
+        log.info("added new listener: " + new_listener.description)
 
     def __str__(self):
         ret = f"canreplay file: {self.pathtofile}\n"
