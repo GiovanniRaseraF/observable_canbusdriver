@@ -36,7 +36,7 @@ canbus.start()
 from canfilereplay import *
 
 canreplay = canlistenfromfile(
-	pathtofile = "{___PATH_TO_FILE__}",
+    pathtofile = "{___PATH_TO_FILE__}",
     replayfrequency = 0.1
 )
 
