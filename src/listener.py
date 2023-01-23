@@ -26,4 +26,13 @@ class motor(listener):
         self.description = desc 
 
     def update(self, data: bytes, channel: int) -> None:
-        print(f"{channel} : {data}")   
+        print(f"{channel} : {data}") 
+
+# generic sniffer 
+class sniffer(listener):
+    def __init__(self, desc: str, on: list):
+        self.on = on
+        self.description = desc 
+
+    def update(self, data: bytes, channel: int) -> None:
+        print(f"{channel} : {data}") 
