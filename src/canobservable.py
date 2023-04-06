@@ -38,26 +38,27 @@ class canlisten(threading.Thread):
             threading.Thread.__init__(self)
             return
 
+        caninterface = interface
         # try load
-        if interface == "can": trytoload()
+        if interface == "can": 
+            trytoload()
+            log.info("checking can inteface presence")
 
-        log.info("checking can inteface presence")
+            # test using ifconfig the presence of can interface
+            os.system(f"sudo /sbin/ifconfig | grep {interface}| cut -c1-4 > can.txt")
+            canfile = open("can.txt", "r")
+            caninterface = canfile.readline()
+            canfile.close()
+            # interface in the first line
+            caninterface = caninterface.strip() 
 
-        # test using ifconfig the presence of can interface
-        os.system(f"sudo /sbin/ifconfig | grep {interface}| cut -c1-4 > can.txt")
-        canfile = open("can.txt", "r")
-        caninterface = canfile.readline()
-        canfile.close()
-        # interface in the first line
-        caninterface = caninterface.strip() 
+            # check for prosence
+            if caninterface == "":
+                log.error("no can interfaces")
+                exit(1)
+            else:
+                log.info(f"interface found, try to connect to: {caninterface}")
 
-        # check for prosence
-        if caninterface == "":
-            log.error("no can interfaces")
-            exit(1)
-
-        log.info(f"interface found, try to connect to: {caninterface}")
-        
         os.system(f"sudo /sbin/ifconfig {caninterface} down 2> /dev/null")
         os.system(f"sudo /sbin/ip link set {caninterface} up type can bitrate {baudrate} 2> /dev/null")
         os.system(f"sudo /sbin/ifconfig {caninterface} up 2> /dev/null")
