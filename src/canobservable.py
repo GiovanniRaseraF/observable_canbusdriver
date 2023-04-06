@@ -94,6 +94,12 @@ class canlisten(threading.Thread):
         id = message.arbitration_id
         data = message.data
 
+        # notify all in 0x0
+        if 0x0 in self.__listenersdict:
+            for l in self.__listenersdict[0x0]:
+                l.update(data, id)
+
+        # notify other ids
         if id in self.__listenersdict:
             for l in self.__listenersdict[id]:
                 l.update(data, id)
