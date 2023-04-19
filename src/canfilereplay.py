@@ -67,7 +67,11 @@ class canlistenfromfile(threading.Thread):
 
         id = int(vals[0], 16)
         data = int(vals[1], 16).to_bytes(8, "big") 
-
+        
+        # notify all in 0x0
+        if 0x0 in self.__listenersdict:
+            for l in self.__listenersdict[0x0]:
+                l.update(data, id) 
         # parse
         if id in self.__listenersdict:
             for l in self.__listenersdict[id]:
