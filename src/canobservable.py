@@ -10,9 +10,17 @@
 #   TODO: replay with timings
 #
 
-import can
-import sys
 import os
+import sys
+import platform
+
+# Check machiene arch for bug fix on canbus library in compilation
+if platform.machine() == "x86_64":
+  import can
+else:
+  sys.path.append('./can')
+  import can
+
 import time
 import threading
 import struct
